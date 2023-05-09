@@ -1,41 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BugsSpawner : MonoBehaviour
 {
      public float respwanTime;
+     public float curTime;
+     public Transform bonsaiP; 
+     public float localScale = 0.5f;
+     public float maxScale = 15f;
+     
 
     [SerializeField]
-    private List <spawnPointInfo> spawnPoints = new List <spawnPointInfo>();
-    [SerializeField]
-    private List <objectSpawnInfo> objectsToSpawn = new List <objectSpawnInfo>();
+    public Transform[] spawns;
 
-    public float curTime;
+    [SerializeField]
+    public GameObject[] objects;
+ 
     
-
-    [System.Serializable]
-    public struct objectSpawnInfo
-    {
-     public GameObject item;
-    }
-    [System.Serializable]
-    public struct spawnPointInfo {
-     public GameObject spawnPoint;
-    }
     // Start is called before the first frame update
     void Start()
     {
-        // foreach (GameObject spawnPoint in GameObject.FindGameObjectsWithTag ("Spawn"))
-        // {
-        //     spawnPoints.Add(spawnPoint);
-        // }
-
+        
         curTime = 0f;
+
+        
 
         
     }
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -43,30 +38,57 @@ public class BugsSpawner : MonoBehaviour
         curTime +=Time.deltaTime;
         if (curTime>respwanTime)
         {
-           // StartSpawn();
+            SpawnObjects( objects, spawns );
             curTime = 0f; 
         }
         
     }
 
-    void StartSpawn()
-    {
-        // for (int i = 0; i < spawnPoints.Count; i++)
-        // {
-        //     if(spawnPoints[i].spawnPoint.transform)
-        //     {
-        //         int randomIndex = Random.Range (0, objectsToSpawn.Count);
-        //         Instantiate(objectsToSpawn, spawnPoints[randomIndex].spawnPoint.transform,spawnPoint.position, spawnPoint.rotation);
-        //        // Spawn();
-        //     }
 
-        // }
-        
-     }
+    void SpawnObjects( GameObject[] gameObjects, Transform[] locations, bool allowOverlap = true )
+     {
+         List<GameObject> remainingGameObjects = new List<GameObject>( gameObjects );
+         List<Transform> freeLocations        = new List<Transform>( locations );
+ 
+         if( locations.Length < gameObjects.Length )
+             Debug.LogWarning( allowOverlap  ? "There are more gameObjects than locations. Some objects will overlap." : "There are not enough locations for all the gameObjects. Some won't spawn.");
+ 
+         while( remainingGameObjects.Count > 0 )
+         {
+             if( freeLocations.Count == 0 )
+             {
+                 if( allowOverlap ) freeLocations.AddRange( locations );
+                 else               break ;
+             }
+ 
+             int gameObjectIndex = Random.Range( 0, remainingGameObjects.Count );
+             int locationIndex   = Random.Range( 0, freeLocations.Count );
+             GameObject go = Instantiate(gameObjects[gameObjectIndex], locations[locationIndex].position, Quaternion.identity, bonsaiP) ;
+             remainingGameObjects.RemoveAt( gameObjectIndex );
+             freeLocations.RemoveAt( locationIndex );
 
-    void Spawn()
+             
+             go.transform.localScale = new Vector3 (localScale, localScale, localScale);
+            go.transform.DOScale(15f, 20f);
+
+            //   
+            //     .SetEase(Ease.OutBounce);
+        
+         }
+    }
+
+    public void SpawnObjectsTransform()
     {
+        if (localScale < maxScale)
+        {
+            
+
+        }
+
         
+      
+       
         
+
     }
 }
