@@ -1,15 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class BugsSpawner : MonoBehaviour
+public class BugsSpawner : MonoBehaviour, IPointerClickHandler
 {
      public float respwanTime;
      public float curTime;
      public Transform bonsaiP; 
-     public float localScale = 0.5f;
-     public float maxScale = 15f;
+     public float localScale = 0.1f;
+     private GameObject go;
+
+     public Ray ray;
+     public RaycastHit hit;
+     
+
+     public List<GameObject> remainingGameObjects = new List<GameObject>();
+     public List<Transform> freeLocations        = new List<Transform>();
+  
      
 
     [SerializeField]
@@ -24,16 +33,15 @@ public class BugsSpawner : MonoBehaviour
     {
         
         curTime = 0f;
-
         
 
-        
     }
 
     
     // Update is called once per frame
     void Update()
     {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);    
 
         curTime +=Time.deltaTime;
         if (curTime>respwanTime)
@@ -41,12 +49,20 @@ public class BugsSpawner : MonoBehaviour
             SpawnObjects( objects, spawns );
             curTime = 0f; 
         }
+
+         // Ray will be sent out from where your mouse is located    
+         
+        if(Physics.Raycast(ray,out hit, 1000.0f) && Input.GetMouseButtonDown (0)) // On left click we send down a ray
+         {
+             Destroy (hit.collider.gameObject); // Destroy what we hit
+         }
+     
         
     }
 
 
-    void SpawnObjects( GameObject[] gameObjects, Transform[] locations, bool allowOverlap = true )
-     {
+    public void SpawnObjects( GameObject[] gameObjects, Transform[] locations, bool allowOverlap = true )
+    {
          List<GameObject> remainingGameObjects = new List<GameObject>( gameObjects );
          List<Transform> freeLocations        = new List<Transform>( locations );
  
@@ -66,29 +82,30 @@ public class BugsSpawner : MonoBehaviour
              GameObject go = Instantiate(gameObjects[gameObjectIndex], locations[locationIndex].position, Quaternion.identity, bonsaiP) ;
              remainingGameObjects.RemoveAt( gameObjectIndex );
              freeLocations.RemoveAt( locationIndex );
-
              
              go.transform.localScale = new Vector3 (localScale, localScale, localScale);
-            go.transform.DOScale(15f, 20f);
+             
+             go.transform.DOScale(15f, 20f);
 
-            //   
-            //     .SetEase(Ease.OutBounce);
-        
-         }
+             
+             }
+              
+     
+    
     }
 
-    public void SpawnObjectsTransform()
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (localScale < maxScale)
+           if (Input.GetMouseButtonDown(0))
         {
-            
-
-        }
-
+            Destroy(go) ;
+             
         
       
        
-        
-
+        }
+       
+       
     }
+
 }

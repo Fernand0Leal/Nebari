@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2388669552665188238}
   - component: {fileID: 2388669552665188239}
   - component: {fileID: 2388669552665188236}
-  - component: {fileID: 2388669552665188232}
   - component: {fileID: -2504241623731511715}
   m_Layer: 0
   m_Name: SpawnR
@@ -94,27 +93,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2388669552665188237}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2388669552665188232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2388669552665188237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b794f0438fd94a33a1a84d2d766579f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respwanTime: 5
-  curTime: 0
-  spawns: []
-  objects: []
 --- !u!54 &-2504241623731511715
 Rigidbody:
   m_ObjectHideFlags: 0

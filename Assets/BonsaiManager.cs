@@ -14,10 +14,11 @@ public class BonsaiManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.DORotate(new Vector3 (0, -360f, 0), 15.0f, RotateMode.FastBeyond360)
-        .SetLoops(-1, LoopType.Restart)
-        .SetRelative()
-        .SetEase(Ease.Linear);
+        // transform.DORotate(new Vector3 (0, -360f, 0), 15.0f, RotateMode.FastBeyond360)
+        // .SetLoops(-1, LoopType.Restart)
+        // .SetRelative()
+        // .SetEase(Ease.Linear);
+        transform.RotateAround(transform.position, -transform.up, Time.deltaTime * 40f);
         
     }
 }
