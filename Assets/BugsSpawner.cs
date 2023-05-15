@@ -4,20 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class BugsSpawner : MonoBehaviour, IPointerClickHandler
+public class BugsSpawner : MonoBehaviour
 {
      public float respwanTime;
      public float curTime;
      public Transform bonsaiP; 
-     public float localScale = 0.1f;
-     private GameObject go;
+     public float spawnScale = 0.1f;
+     public GameObject go;
 
-     public Ray ray;
-     public RaycastHit hit;
-     
-
-     public List<GameObject> remainingGameObjects = new List<GameObject>();
-     public List<Transform> freeLocations        = new List<Transform>();
   
      
 
@@ -41,21 +35,19 @@ public class BugsSpawner : MonoBehaviour, IPointerClickHandler
     // Update is called once per frame
     void Update()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);    
+       
+   
 
         curTime +=Time.deltaTime;
         if (curTime>respwanTime)
         {
-            SpawnObjects( objects, spawns );
+            SpawnObjects(objects, spawns);
             curTime = 0f; 
         }
 
-         // Ray will be sent out from where your mouse is located    
+
          
-        if(Physics.Raycast(ray,out hit, 1000.0f) && Input.GetMouseButtonDown (0)) // On left click we send down a ray
-         {
-             Destroy (hit.collider.gameObject); // Destroy what we hit
-         }
+         
      
         
     }
@@ -83,29 +75,22 @@ public class BugsSpawner : MonoBehaviour, IPointerClickHandler
              remainingGameObjects.RemoveAt( gameObjectIndex );
              freeLocations.RemoveAt( locationIndex );
              
-             go.transform.localScale = new Vector3 (localScale, localScale, localScale);
+             go.transform.localScale = new Vector3 (spawnScale, spawnScale, spawnScale);
              
              go.transform.DOScale(15f, 20f);
 
              
-             }
+
+        
+            
+         }
+
+         
               
      
     
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
-    {
-           if (Input.GetMouseButtonDown(0))
-        {
-            Destroy(go) ;
-             
-        
-      
-       
-        }
-       
-       
-    }
+
 
 }
