@@ -10,7 +10,7 @@ public class BugsSpawner : MonoBehaviour
      public float curTime;
      public Transform bonsaiP; 
      public float spawnScale = 0.1f;
-     public GameObject go;
+     private GameObject go;
 
   
      
@@ -46,10 +46,7 @@ public class BugsSpawner : MonoBehaviour
         }
 
 
-         
-         
-     
-        
+   
     }
 
 
@@ -77,7 +74,7 @@ public class BugsSpawner : MonoBehaviour
              
              go.transform.localScale = new Vector3 (spawnScale, spawnScale, spawnScale);
              
-             go.transform.DOScale(15f, 20f);
+             go.transform.DOScale(15f, 30f);
 
              
 
