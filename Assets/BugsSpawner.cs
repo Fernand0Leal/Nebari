@@ -17,7 +17,7 @@ public class BugsSpawner : MonoBehaviour
 
   
      
-
+     // use this two variables instead of making copys
     [SerializeField]
     public Transform[] spawns;
 
