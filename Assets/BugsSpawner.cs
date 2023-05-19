@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+//add name space
+
 public class BugsSpawner : MonoBehaviour
-{
+{ 
+// make all variates private or private serialized or public
      public float respwanTime;
      public float curTime;
      public Transform bonsaiP; 
@@ -14,7 +17,7 @@ public class BugsSpawner : MonoBehaviour
 
   
      
-
+     // use this two variables instead of making copys
     [SerializeField]
     public Transform[] spawns;
 
@@ -26,7 +29,7 @@ public class BugsSpawner : MonoBehaviour
     void Start()
     {
         
-        curTime = 0f;
+        curTime = 0f; // dont set  value here; 
         
 
     }
@@ -37,7 +40,9 @@ public class BugsSpawner : MonoBehaviour
     {
        
    
-
+     // try to use corutine instead 
+     // read about async/ await 
+     
         curTime +=Time.deltaTime;
         if (curTime>respwanTime)
         {
