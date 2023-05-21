@@ -10,14 +10,14 @@ public class BugsSpawner : MonoBehaviour
 { 
 // make all variates private or private serialized or public
      public float respwanTime;
-     public float curTime;
+     public float curTime = 0f;
      public Transform bonsaiP; 
      public float spawnScale = 0.1f;
      private GameObject go;
 
   
      
-     // use this two variables instead of making copys
+
     [SerializeField]
     public Transform[] spawns;
 
@@ -25,15 +25,8 @@ public class BugsSpawner : MonoBehaviour
     public GameObject[] objects;
  
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        curTime = 0f; // dont set  value here; 
-        
-
-    }
-
+  
+    
     
     // Update is called once per frame
     void Update()
@@ -55,25 +48,25 @@ public class BugsSpawner : MonoBehaviour
     }
 
 
-    public void SpawnObjects( GameObject[] gameObjects, Transform[] locations, bool allowOverlap = true )
+    public void SpawnObjects( GameObject[] objects, Transform[] spawns, bool allowOverlap = true )
     {
-         List<GameObject> remainingGameObjects = new List<GameObject>( gameObjects );
-         List<Transform> freeLocations        = new List<Transform>( locations );
+         List<GameObject> remainingGameObjects = new List<GameObject>( objects );
+         List<Transform> freeLocations        = new List<Transform>( spawns );
  
-         if( locations.Length < gameObjects.Length )
+         if( spawns.Length < objects.Length )
              Debug.LogWarning( allowOverlap  ? "There are more gameObjects than locations. Some objects will overlap." : "There are not enough locations for all the gameObjects. Some won't spawn.");
  
          while( remainingGameObjects.Count > 0 )
          {
              if( freeLocations.Count == 0 )
              {
-                 if( allowOverlap ) freeLocations.AddRange( locations );
+                 if( allowOverlap ) freeLocations.AddRange( spawns );
                  else               break ;
              }
  
              int gameObjectIndex = Random.Range( 0, remainingGameObjects.Count );
              int locationIndex   = Random.Range( 0, freeLocations.Count );
-             GameObject go = Instantiate(gameObjects[gameObjectIndex], locations[locationIndex].position, Quaternion.identity, bonsaiP) ;
+             GameObject go = Instantiate(objects[gameObjectIndex], spawns[locationIndex].position, Quaternion.identity, bonsaiP) ;
              remainingGameObjects.RemoveAt( gameObjectIndex );
              freeLocations.RemoveAt( locationIndex );
              

@@ -502,6 +502,7 @@ MonoBehaviour:
   - {fileID: 857726953}
   objects:
   - {fileID: 2388669552665188237, guid: afeda5b92603143c8a6a9fd06df19871, type: 3}
+  - {fileID: 2292027964876094534, guid: 21087c1aa989647d9bf397238a8b08f9, type: 3}
 --- !u!4 &583394259
 Transform:
   m_ObjectHideFlags: 0
@@ -5588,6 +5589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonsaiHealth: 100
   healthSlider: {fileID: 1228270777}
+  counter: 60
 --- !u!23 &4508720443913051559
 MeshRenderer:
   m_ObjectHideFlags: 0
