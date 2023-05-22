@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using TMPro; 
+using UnityEngine.SceneManagement;
 
 public class BonsaiManager : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class BonsaiManager : MonoBehaviour
     private float maxHealth = 200; 
     public Slider healthSlider; 
     public int counter = 60;
+    public TextMeshProUGUI timeText;  
+    public GameObject winPanel;
+    public GameObject losePanel; 
     
     
 
@@ -38,14 +43,17 @@ public class BonsaiManager : MonoBehaviour
 
     void GameClear()
     {
-
+        winPanel.SetActive(true);
         print ("Congrats");
+        
     
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeText.text = counter + "".ToString();
+
         
         transform.RotateAround(transform.position, -transform.up, Time.deltaTime * 30f);
         healthSlider.value = bonsaiHealth; 
@@ -58,7 +66,20 @@ public class BonsaiManager : MonoBehaviour
         if(bonsaiHealth <= 0)
         {
             print("gameOver");
+            GameOver();
         }
+    }
+
+   void GameOver()
+    {
+
+       losePanel.SetActive(true);
+
+    }
+
+    public void SceneLoader()
+    {
+        SceneManager.LoadScene(0);
     }
 
     
