@@ -8,12 +8,18 @@ public class SpawnHealth : MonoBehaviour
 {
 
     public BonsaiManager bManager; 
- 
+    private float scaleUp = 1.5f; 
+    private Vector3 currentScale;
+    private Coroutine healthLoss;
+   
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        
         bManager = FindObjectOfType<BonsaiManager>();
+        currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
 
     }
 
@@ -26,15 +32,32 @@ public class SpawnHealth : MonoBehaviour
             print("growing");
    
         }
+
+        if(bManager.winPanel.activeInHierarchy)
+        {
+            Destroy(this.GetComponent<Collider>());
+        }
+        if(bManager.losePanel.activeInHierarchy)
+        {
+            Destroy(this.GetComponent<Collider>());
+        }
+
+       
      
     }
 
     void OnMouseDown(){
 
-        transform.DOScale(0.05f, 5f)
-        .OnComplete(()=> Destroy(this.gameObject));
+       transform.DOScale(currentScale * scaleUp, 1.0f)
+            .SetEase(Ease.InBounce)
+            //.SetDelay(1.0f)
+            .OnComplete(()=>
+            {
+                DestroySpawn();
+                .Kill(true)
+            });
 
-        StartCoroutine (HealthLossTimer());
+       healthLoss = StartCoroutine (HealthLossTimer());
 
     }
 
@@ -47,5 +70,11 @@ public class SpawnHealth : MonoBehaviour
 
         Debug.Log ("health" +  bManager.healthSlider.value);
  
+    }
+
+    void DestroySpawn()
+    {
+        
+        Destroy(this.gameObject);   
     }
 }

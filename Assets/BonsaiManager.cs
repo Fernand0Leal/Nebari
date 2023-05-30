@@ -9,20 +9,28 @@ using UnityEngine.SceneManagement;
 public class BonsaiManager : MonoBehaviour
 {
     public float bonsaiHealth = 100f;
+    public float rotAmount = 30f;
     private float maxHealth = 200; 
+    private float minHealth = 0;
     public Slider healthSlider; 
     public int counter = 60;
     public TextMeshProUGUI timeText;  
     public GameObject winPanel;
     public GameObject losePanel; 
+    public GameObject gameManager;
+
+    private Coroutine gameTimer; 
+
+    
+    
     
     
 
     // Start is called before the first frame update
     void Start()
     {
-       
-        StartCoroutine(GameTimer());
+       gameTimer = StartCoroutine(GameTimer());
+        
     }
 
 
@@ -43,10 +51,28 @@ public class BonsaiManager : MonoBehaviour
 
     void GameClear()
     {
+
+        StopCoroutine(gameTimer);
         winPanel.SetActive(true);
         print ("Congrats");
+        Destroy(gameManager);
+        rotAmount = 15f;
         
     
+        
+    
+    }
+    void GameOver()
+    {
+        
+        
+        StopCoroutine(gameTimer);
+        losePanel.SetActive(true);
+        Destroy(gameManager);
+        rotAmount = 15f;
+         
+       
+
     }
 
     // Update is called once per frame
@@ -55,7 +81,7 @@ public class BonsaiManager : MonoBehaviour
         timeText.text = counter + "".ToString();
 
         
-        transform.RotateAround(transform.position, -transform.up, Time.deltaTime * 30f);
+        transform.RotateAround(transform.position, -transform.up, Time.deltaTime * rotAmount);
         healthSlider.value = bonsaiHealth; 
 
         if (bonsaiHealth >= maxHealth)
@@ -65,17 +91,22 @@ public class BonsaiManager : MonoBehaviour
 
         if(bonsaiHealth <= 0)
         {
+            bonsaiHealth = minHealth;
             print("gameOver");
             GameOver();
         }
+
+        if (winPanel.activeInHierarchy)
+        {
+            losePanel.SetActive(false);
+        }
+        if (losePanel.activeInHierarchy)
+        {
+            winPanel.SetActive(false);
+        }
     }
 
-   void GameOver()
-    {
-
-       losePanel.SetActive(true);
-
-    }
+   
 
     public void SceneLoader()
     {
