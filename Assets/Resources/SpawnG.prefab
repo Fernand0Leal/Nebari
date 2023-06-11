@@ -111,5 +111,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bManager: {fileID: 0}
-  spawnDamage: 0
-  TimeSeconds: 3
+  sHealth: {fileID: 0}

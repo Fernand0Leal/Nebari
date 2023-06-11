@@ -111,5 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bManager: {fileID: 0}
+  sDestroy: {fileID: 0}
   spawnDamage: 3
-  TimeSeconds: 3
