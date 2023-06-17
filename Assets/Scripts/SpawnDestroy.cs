@@ -80,18 +80,8 @@ public class SpawnDestroy : MonoBehaviour
         {
             DOTween.KillAll();
         }
-        
-
-        
-
-    
 
     }
-
-
-  
-    
-    
 
     void OnMouseDown(){
 
@@ -106,7 +96,7 @@ public class SpawnDestroy : MonoBehaviour
                     if(transformTween != null && transformTween.IsActive())
                     {
                         
-                    transformTween.Kill();
+                    // transformTween.Kill();
                     GameObject objectToDestroy = this.gameObject; 
                     bSpawner.DestroyPrefab(objectToDestroy);
                     }
@@ -119,8 +109,6 @@ public class SpawnDestroy : MonoBehaviour
             
         
     }
-    
-    
 
     private IEnumerator HealthTimer()
     {

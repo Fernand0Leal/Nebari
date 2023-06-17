@@ -71,11 +71,12 @@ public class SpawnHealth : MonoBehaviour
 
                 if(transformTween != null && transformTween.IsActive())
                 {
-                transformTween.Kill();
-                }
-                
+                // transformTween.Kill();
                 GameObject objectToDestroy = this.gameObject; 
                 bSpawner.DestroyPrefab(objectToDestroy);
+                }
+                
+                
                
             });
 
