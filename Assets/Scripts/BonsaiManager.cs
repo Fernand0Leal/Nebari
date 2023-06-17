@@ -10,7 +10,7 @@ public class BonsaiManager : MonoBehaviour
 {
     public float bonsaiHealth = 100f;
     public float rotAmount = 30f;
-    private float maxHealth = 200; 
+    public float maxHealth = 200; 
     private float minHealth = 0;
     public Slider healthSlider; 
     public int counter = 60;
@@ -51,7 +51,7 @@ public class BonsaiManager : MonoBehaviour
 
     void GameClear()
     {
-         DOTween.Clear();
+         DOTween.Clear(true);
         StopCoroutine(gameTimer);
         winPanel.SetActive(true);
         print ("Congrats");
@@ -65,7 +65,7 @@ public class BonsaiManager : MonoBehaviour
     void GameOver()
     {
         
-         DOTween.Clear();
+         DOTween.Clear(true);
         StopCoroutine(gameTimer);
         losePanel.SetActive(true);
         Destroy(gameManager);

@@ -9,12 +9,17 @@ using UnityEngine.SceneManagement;
 public class SpawnDestroy : MonoBehaviour
 {
 
-    public BonsaiManager bManager; 
-    public GameObject sDestroy; 
+    public BonsaiManager bManager;
+    public BugsSpawner bSpawner; 
+    
+   
     public int spawnDamage;
-    private float scaleUp = 1.5f; 
+    //private float scaleUp = 1.5f; 
     private Vector3 currentScale;
     private Coroutine healthT;
+    
+    private Tween transformTween; 
+    private Tween healthL; 
    
    
 
@@ -25,6 +30,7 @@ public class SpawnDestroy : MonoBehaviour
     {
         
         bManager = FindObjectOfType<BonsaiManager>();
+        bSpawner = FindObjectOfType<BugsSpawner>();
         currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
         // StartTweens();
   
@@ -55,9 +61,24 @@ public class SpawnDestroy : MonoBehaviour
             Destroy(this.GetComponent<Collider>());
         }
 
-          if (this.transform == null)
+        
+
+          if (gameObject == null)
         {
+           if (DOTween.TotalPlayingTweens() > 0)
+            {
             DOTween.Clear(true);
+            }
+        }
+
+         if (bManager.bonsaiHealth >= bManager.maxHealth)
+        {
+            DOTween.KillAll();
+        }        
+
+        if(bManager.bonsaiHealth <= 0)
+        {
+            DOTween.KillAll();
         }
         
 
@@ -67,26 +88,29 @@ public class SpawnDestroy : MonoBehaviour
 
     }
 
-    Tween _tweener; 
+
+  
+    
+    
 
     void OnMouseDown(){
 
-        Debug.Log("hello");
-
-       
-        if (_tweener != null) 
-        {
-            _tweener.Kill(); 
-        }
+         
 
         
-        _tweener = transform.DOScale(currentScale * scaleUp, 1.0f)
+        transformTween = transform.DOScale(new Vector3(0,0,0), 1.0f)
         .SetEase(Ease.InBounce)
                  //.SetDelay(1.0f)
                  .OnComplete(()=>
                 {
-                
-                    DestroySpawn();
+                    if(transformTween != null && transformTween.IsActive())
+                    {
+                        
+                    transformTween.Kill();
+                    GameObject objectToDestroy = this.gameObject; 
+                    bSpawner.DestroyPrefab(objectToDestroy);
+                    }
+                    
                 });
         
 
@@ -95,29 +119,35 @@ public class SpawnDestroy : MonoBehaviour
             
         
     }
+    
+    
 
     private IEnumerator HealthTimer()
     {
-            Debug.Log("ScaleBug3");
-            bManager.healthSlider.DOValue(bManager.bonsaiHealth + 5,1f)
+     
+
+            if(gameObject != null)
+            {
+            healthL = bManager.healthSlider.DOValue(bManager.bonsaiHealth + 5,1f)
                 .OnComplete(()=> {
+
+                    if(healthL != null && healthL.IsActive())
+                     {
+                       healthL.Kill();
+                       
+                     }
                  bManager.bonsaiHealth = bManager.healthSlider.value;
+                 
                 
                  });
         yield return null;
+            }
         
         
         
     }
 
-    void DestroySpawn()
-    {
 
-        _tweener.Kill();
-       
-       // Destroy(this.gameObject);
-        
-    }
 
 
 }

@@ -12,80 +12,105 @@ public class BugsSpawner : MonoBehaviour
      public float respwanTime;
      public float curTime = 0f;
      public Transform bonsaiP; 
-     public float spawnScale = 0.1f;
-     private GameObject go;
+     public float spawnScale = 0.2f;
+
+
+     private Tween oScale;
 
   
-     
+    [SerializeField]
+    public List<Transform> spawns;
 
     [SerializeField]
-    public Transform[] spawns;
+    public List <GameObject> objects;
 
-    [SerializeField]
-    public GameObject[] objects;
- 
-    
-  
-    
-    
-    // Update is called once per frame
-    void Update()
+    private Dictionary<GameObject, Transform> spawnedObjects;
+
+    IEnumerator SpawnObjectsCoroutine()
     {
-       
-   
-     // try to use corutine instead 
-     // read about async/ await 
-     
-        curTime +=Time.deltaTime;
-        if (curTime>respwanTime)
+
+    yield return new WaitForSeconds(3f);
+
+    while (true)
+    {
+        // Randomly select a spawn location
+        int locationIndex = Random.Range(0, spawns.Count);
+        Transform spawnLocation = spawns[locationIndex];
+
+        spawns.RemoveAt(locationIndex);
+
+        // Randomly select an object prefab
+        int prefabIndex = Random.Range(0, objects.Count);
+        GameObject selectedPrefab = objects[prefabIndex];
+
+        // Spawn the object
+        GameObject spawnedObject = Instantiate(selectedPrefab, spawnLocation.position, spawnLocation.rotation, bonsaiP);
+
+        spawnedObjects.Add(spawnedObject, spawnLocation);
+
+        spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
+        if(spawnedObject.transform != null && spawnedObject !=null)
         {
-            SpawnObjects(objects, spawns);
-            curTime = 0f; 
+        oScale = spawnedObject.transform.DOScale(15f, 30f);
         }
 
-
-   
+        yield return new WaitForSeconds(respwanTime);
     }
-
-
-    public void SpawnObjects( GameObject[] objects, Transform[] spawns, bool allowOverlap = true )
-    {
-         List<GameObject> remainingGameObjects = new List<GameObject>( objects );
-         List<Transform> freeLocations        = new List<Transform>( spawns );
+    }
  
-         if( spawns.Length < objects.Length )
-             Debug.LogWarning( allowOverlap  ? "There are more gameObjects than locations. Some objects will overlap." : "There are not enough locations for all the gameObjects. Some won't spawn.");
- 
-         while( remainingGameObjects.Count > 0 )
-         {
-             if( freeLocations.Count == 0 )
-             {
-                 if( allowOverlap ) freeLocations.AddRange( spawns );
-                 else               break ;
-             }
- 
-             int gameObjectIndex = Random.Range( 0, remainingGameObjects.Count );
-             int locationIndex   = Random.Range( 0, freeLocations.Count );
-             GameObject go = Instantiate(objects[gameObjectIndex], spawns[locationIndex].position, spawns[locationIndex].rotation, bonsaiP) ;
-             remainingGameObjects.RemoveAt( gameObjectIndex );
-             freeLocations.RemoveAt( locationIndex );
-             
-             go.transform.localScale = new Vector3 (spawnScale, spawnScale, spawnScale); 
-             
-             go.transform.DOScale(15f, 30f);
-
-             
-
-        
-            
-         }
-
-         
-              
-     
     
+    void Start()
+    {
+        spawnedObjects = new Dictionary<GameObject, Transform>();
+        StartCoroutine(SpawnObjectsCoroutine());
     }
+    
+    
 
+    public void DestroyPrefab(GameObject objectToDestroy)
+    {
+        if (spawnedObjects.ContainsKey(objectToDestroy))
+        {
+            // Retrieve the spawn location of the object
+            Transform spawnLocation = spawnedObjects[objectToDestroy];
 
+            // Remove the object from the spawned objects dictionary
+            spawnedObjects.Remove(objectToDestroy);
 
+            if (objectToDestroy.transform != null )
+        {
+            objectToDestroy.transform.DOKill(); // Kill the active tween
+        }
+             
+
+            // Destroy the object
+            Destroy(objectToDestroy);
+           
+            if(oScale != null && oScale.IsActive())
+                {
+                oScale.Kill();
+                }
+
+            if(spawnLocation != null)
+                {
+                spawns.Add(spawnLocation);
+                }
+            
+        }
+        else
+        {
+            Debug.LogError("The specified object does not exist or was not spawned by this spawner.");
+        }
+
+    }
 }
+
+
+
+    
+  
+
+    
+
+
+

@@ -12,6 +12,11 @@ public class SpawnHealth : MonoBehaviour
     private float scaleUp = 1.5f; 
     private Vector3 currentScale;
     private Coroutine healthLoss;
+
+     public BugsSpawner bSpawner; 
+
+      private Tween transformTween; 
+    private Tween healthL; 
    
     
 
@@ -20,6 +25,7 @@ public class SpawnHealth : MonoBehaviour
     {
         
         bManager = FindObjectOfType<BonsaiManager>();
+        bSpawner = FindObjectOfType<BugsSpawner>();
         currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
 
     }
@@ -28,11 +34,11 @@ public class SpawnHealth : MonoBehaviour
     void Update()
     {
     
-        if(this.transform.localScale.x > 5f && this.transform.localScale.y > 5f)
-        {
-            print("growing");
+        // if(this.transform.localScale.x > 5f && this.transform.localScale.y > 5f)
+        // {
+        //     print("growing");
    
-        }
+        // }
 
         if(bManager.winPanel.activeInHierarchy)
         {
@@ -54,14 +60,22 @@ public class SpawnHealth : MonoBehaviour
 
     void OnMouseDown(){
 
+      
+
     
-       transform.DOScale(currentScale * scaleUp, 1.0f)
+      transformTween = transform.DOScale(currentScale * scaleUp, 1.0f)
             .SetEase(Ease.InBounce)
             //.SetDelay(1.0f)
             .OnComplete(()=>
             {
+
+                if(transformTween != null && transformTween.IsActive())
+                {
+                transformTween.Kill();
+                }
                 
-                DestroySpawn();
+                GameObject objectToDestroy = this.gameObject; 
+                bSpawner.DestroyPrefab(objectToDestroy);
                
             });
 
@@ -73,8 +87,12 @@ public class SpawnHealth : MonoBehaviour
     private IEnumerator HealthLossTimer()
     {
  
-        bManager.healthSlider.DOValue(bManager.bonsaiHealth - 10,1f)
+       healthL =  bManager.healthSlider.DOValue(bManager.bonsaiHealth - 10,1f)
         .OnComplete(()=> {
+            if(healthL != null && healthL.IsActive())
+            {
+                healthL.Kill();
+            }
             bManager.bonsaiHealth = bManager.healthSlider.value;
             
         });
@@ -85,14 +103,5 @@ public class SpawnHealth : MonoBehaviour
  
     }
 
-    void DestroySpawn()
-    {
-        
-        //DOTween.Kill(transform);
-         if (this.transform != null)
-        {
-        Destroy(this.gameObject);
-        
-        }  
-    }
+    
 }
