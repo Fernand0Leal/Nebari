@@ -51,7 +51,7 @@ public class BugsSpawner : MonoBehaviour
         spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
         if(spawnedObject.transform != null && spawnedObject !=null)
         {
-        oScale = spawnedObject.transform.DOScale(15f, 5f);
+        oScale = spawnedObject.transform.DOScale(1f, 5f);
         }
 
         yield return new WaitForSeconds(respwanTime);

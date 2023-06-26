@@ -15,8 +15,10 @@ public class SpawnHealth : MonoBehaviour
 
      public BugsSpawner bSpawner; 
 
-      private Tween transformTween; 
+    private Tween transformTween; 
     private Tween healthL; 
+
+    public HealthBar healthB;
    
     
 
@@ -26,6 +28,7 @@ public class SpawnHealth : MonoBehaviour
         
         bManager = FindObjectOfType<BonsaiManager>();
         bSpawner = FindObjectOfType<BugsSpawner>();
+        healthB = FindObjectOfType<HealthBar>();
         currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
 
     }
@@ -60,6 +63,8 @@ public class SpawnHealth : MonoBehaviour
 
     void OnMouseDown(){
 
+        healthB.ChangeValue2(true);
+
       
 
     
@@ -80,29 +85,29 @@ public class SpawnHealth : MonoBehaviour
                
             });
 
-       healthLoss = StartCoroutine (HealthLossTimer());
+    //    healthLoss = StartCoroutine (HealthLossTimer());
 
     
     }
 
-    private IEnumerator HealthLossTimer()
-    {
+    // private IEnumerator HealthLossTimer()
+    // {
  
-       healthL =  bManager.healthSlider.DOValue(bManager.bonsaiHealth - 10,1f)
-        .OnComplete(()=> {
-            if(healthL != null && healthL.IsActive())
-            {
-                healthL.Kill();
-            }
-            bManager.bonsaiHealth = bManager.healthSlider.value;
+    //    healthL =  bManager.healthSlider.DOValue(bManager.bonsaiHealth - 10,1f)
+    //     .OnComplete(()=> {
+    //         if(healthL != null && healthL.IsActive())
+    //         {
+    //             healthL.Kill();
+    //         }
+    //         bManager.bonsaiHealth = bManager.healthSlider.value;
             
-        });
-        yield return null;
+    //     });
+    //     yield return null;
         
 
-        Debug.Log ("health" +  bManager.healthSlider.value);
+    //     Debug.Log ("health" +  bManager.healthSlider.value);
  
-    }
+    // }
 
     
 }

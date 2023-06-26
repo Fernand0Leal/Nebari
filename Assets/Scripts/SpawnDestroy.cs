@@ -11,9 +11,10 @@ public class SpawnDestroy : MonoBehaviour
 
     public BonsaiManager bManager;
     public BugsSpawner bSpawner; 
+    public HealthBar healthB;
     
    
-    public int spawnDamage;
+    public float spawnDamage;
     //private float scaleUp = 1.5f; 
     private Vector3 currentScale;
     private Coroutine healthT;
@@ -31,6 +32,7 @@ public class SpawnDestroy : MonoBehaviour
         
         bManager = FindObjectOfType<BonsaiManager>();
         bSpawner = FindObjectOfType<BugsSpawner>();
+        healthB = FindObjectOfType<HealthBar>();
         currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
         // StartTweens();
   
@@ -42,22 +44,25 @@ public class SpawnDestroy : MonoBehaviour
     void Update()
     {
         
-        if(this.transform.localScale.x > 5f  && this.transform.localScale.y > 5f) 
+        if(this.transform.localScale.x > 0.5f  && this.transform.localScale.y > 0.5f) 
         {
+            
          
         
-            bManager.bonsaiHealth -= spawnDamage*Time.deltaTime; 
+            // bManager.bonsaiHealth -= spawnDamage*Time.deltaTime; 
+            healthB.ChangeValue(false);
+            
 
         }
 
         if(bManager.winPanel.activeInHierarchy)
         {
-            spawnDamage = 0;
+            // spawnDamage = 0;
             Destroy(this.GetComponent<Collider>());
         }
         if(bManager.losePanel.activeInHierarchy)
         {
-            spawnDamage = 0;
+            // spawnDamage = 0;
             Destroy(this.GetComponent<Collider>());
         }
 
@@ -71,12 +76,12 @@ public class SpawnDestroy : MonoBehaviour
             }
         }
 
-         if (bManager.bonsaiHealth >= bManager.maxHealth)
+         if (healthB._FillRateValue >= bManager.maxHealth)
         {
             DOTween.KillAll();
         }        
 
-        if(bManager.bonsaiHealth <= 0)
+        if(healthB._FillRateValue <= 0)
         {
             DOTween.KillAll();
         }
@@ -104,36 +109,38 @@ public class SpawnDestroy : MonoBehaviour
                 });
         
 
-       healthT = StartCoroutine (HealthTimer());
+    //    healthT = StartCoroutine (HealthTimer());
 
             
         
     }
 
-    private IEnumerator HealthTimer()
-    {
+    // private IEnumerator HealthTimer()
+    // {
      
 
-            if(gameObject != null)
-            {
-            healthL = bManager.healthSlider.DOValue(bManager.bonsaiHealth + 5,1f)
-                .OnComplete(()=> {
+    //         if(gameObject != null)
+    //         {
+    //             healthB.ChangeValue(true);
+            
+    //         healthL = bManager.healthSlider.DOValue(bManager.bonsaiHealth + 5,1f)
+    //             .OnComplete(()=> {
 
-                    if(healthL != null && healthL.IsActive())
-                     {
-                       healthL.Kill();
+    //                 if(healthL != null && healthL.IsActive())
+    //                  {
+    //                    healthL.Kill();
                        
-                     }
-                 bManager.bonsaiHealth = bManager.healthSlider.value;
+    //                  }
+    //              bManager.bonsaiHealth = bManager.healthSlider.value;
                  
                 
-                 });
-        yield return null;
-            }
+    //              });
+    //     yield return null;
+    //         }
         
         
         
-    }
+    
 
 
 

@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class BonsaiManager : MonoBehaviour
 {
-    public float bonsaiHealth = 100f;
+    
     public float rotAmount = 30f;
-    public float maxHealth = 200; 
-    private float minHealth = 0;
-    public Slider healthSlider; 
+    public float maxHealth = 5; 
+    private float minHealth = -5;
+    // public Slider healthSlider; 
     public int counter = 60;
     public TextMeshProUGUI timeText;  
     public GameObject winPanel;
@@ -20,6 +20,10 @@ public class BonsaiManager : MonoBehaviour
     public GameObject gameManager;
 
     private Coroutine gameTimer; 
+
+    public HealthBar healthB;
+
+    
 
     
     
@@ -29,9 +33,13 @@ public class BonsaiManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+     
        gameTimer = StartCoroutine(GameTimer());
+       
         
     }
+
+    
 
 
 
@@ -49,6 +57,7 @@ public class BonsaiManager : MonoBehaviour
            
     }
 
+    
     void GameClear()
     {
          DOTween.Clear(true);
@@ -82,16 +91,16 @@ public class BonsaiManager : MonoBehaviour
 
         
         transform.RotateAround(transform.position, -transform.up, Time.deltaTime * rotAmount);
-        healthSlider.value = bonsaiHealth; 
+        // healthSlider.value = bonsaiHealth; 
 
-        if (bonsaiHealth >= maxHealth)
+        if (healthB._FillRateValue >= maxHealth)
         {
-            bonsaiHealth = maxHealth; 
+           healthB._FillRateValue = maxHealth; 
         }        
 
-        if(bonsaiHealth <= 0)
+        if(healthB._FillRateValue <= -5f)
         {
-            bonsaiHealth = minHealth;
+            healthB._FillRateValue = minHealth;
            
             print("gameOver");
             GameOver();
