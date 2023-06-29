@@ -14,13 +14,13 @@ public class SpawnDestroy : MonoBehaviour
     public HealthBar healthB;
     
    
-    public float spawnDamage;
-    //private float scaleUp = 1.5f; 
+    // public float spawnDamage;
+
     private Vector3 currentScale;
-    private Coroutine healthT;
+    // private Coroutine healthT;
     
     private Tween transformTween; 
-    private Tween healthL; 
+    // private Tween healthL; 
    
    
 
@@ -44,11 +44,9 @@ public class SpawnDestroy : MonoBehaviour
     void Update()
     {
         
-        if(this.transform.localScale.x > 0.5f  && this.transform.localScale.y > 0.5f) 
+        if(this.transform.localScale.x > 0.6f  && this.transform.localScale.y > 0.6f) 
         {
             
-         
-        
             // bManager.bonsaiHealth -= spawnDamage*Time.deltaTime; 
             healthB.ChangeValue(false);
             
@@ -81,7 +79,7 @@ public class SpawnDestroy : MonoBehaviour
             DOTween.KillAll();
         }        
 
-        if(healthB._FillRateValue <= 0)
+        if(healthB._FillRateValue <= -5)
         {
             DOTween.KillAll();
         }
@@ -90,9 +88,9 @@ public class SpawnDestroy : MonoBehaviour
 
     void OnMouseDown(){
 
-         
+        healthB.ChangeValue(true);
 
-        
+         
         transformTween = transform.DOScale(new Vector3(0,0,0), 1.0f)
         .SetEase(Ease.InBounce)
                  //.SetDelay(1.0f)

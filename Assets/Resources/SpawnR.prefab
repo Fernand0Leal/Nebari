@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2388669552665188233}
   - component: {fileID: 2388669552665188238}
   - component: {fileID: 2388669552665188239}
-  - component: {fileID: 7565124904141968872}
   - component: {fileID: 6686280612571855773}
+  - component: {fileID: 341489886070776112}
   m_Layer: 0
   m_Name: SpawnR
   m_TagString: SpawnObject
@@ -85,7 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7565124904141968872
+--- !u!65 &6686280612571855773
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2388669552665188237}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.595122, y: 10.110895, z: 9.193769}
+  m_Center: {x: 0.002491951, y: 0.9312465, z: 0.71265996}
+--- !u!114 &341489886070776112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,17 +113,4 @@ MonoBehaviour:
   bManager: {fileID: 0}
   bSpawner: {fileID: 0}
   healthB: {fileID: 0}
-  spawnDamage: 0.5
---- !u!65 &6686280612571855773
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2388669552665188237}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 9.595122, y: 10.110895, z: 9.193769}
-  m_Center: {x: 0.002491951, y: 0.9312465, z: 0.71265996}
+  spawnDamage: 0.2

@@ -10,9 +10,9 @@ public class BugsSpawner : MonoBehaviour
 { 
 // make all variates private or private serialized or public
      public float respwanTime;
-     public float curTime = 0f;
+     private float curTime = 0f;
      public Transform bonsaiP; 
-     public float spawnScale = 0.2f;
+     public float spawnScale = 0.25f;
 
 
      private Tween oScale;
@@ -29,33 +29,36 @@ public class BugsSpawner : MonoBehaviour
     IEnumerator SpawnObjectsCoroutine()
     {
 
-    yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
 
-    while (true)
-    {
-        // Randomly select a spawn location
-        int locationIndex = Random.Range(0, spawns.Count);
-        Transform spawnLocation = spawns[locationIndex];
-
-        spawns.RemoveAt(locationIndex);
-
-        // Randomly select an object prefab
-        int prefabIndex = Random.Range(0, objects.Count);
-        GameObject selectedPrefab = objects[prefabIndex];
-
-        // Spawn the object
-        GameObject spawnedObject = Instantiate(selectedPrefab, spawnLocation.position, spawnLocation.rotation, bonsaiP);
-
-        spawnedObjects.Add(spawnedObject, spawnLocation);
-
-        spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
-        if(spawnedObject.transform != null && spawnedObject !=null)
+        while (true)
         {
-        oScale = spawnedObject.transform.DOScale(1f, 5f);
-        }
+            // Randomly select a spawn location
+            int locationIndex = Random.Range(0, spawns.Count);
+            Transform spawnLocation = spawns[locationIndex];
 
-        yield return new WaitForSeconds(respwanTime);
-    }
+            spawns.RemoveAt(locationIndex);
+
+            // Randomly select an object prefab
+            int prefabIndex = Random.Range(0, objects.Count);
+            GameObject selectedPrefab = objects[prefabIndex];
+
+            // Spawn the object
+            GameObject spawnedObject = Instantiate(selectedPrefab, spawnLocation.position, spawnLocation.rotation, bonsaiP);
+
+            spawnedObjects.Add(spawnedObject, spawnLocation);
+
+            spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
+
+            if(spawnedObject.transform != null && spawnedObject !=null)
+            {
+            
+                oScale = spawnedObject.transform.DOScale(1f, 2f);
+                
+            }
+
+            yield return new WaitForSeconds(respwanTime);
+        }
     }
  
     

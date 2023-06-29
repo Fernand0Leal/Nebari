@@ -6,7 +6,7 @@ using DG.Tweening;
 public class HealthBar : MonoBehaviour
 
     {
-    public float _FillRateValue = 5f; //progress bar starts empty
+    public float _FillRateValue = 6f; //progress bar starts full
     public Material objectMaterial;
 
     float healthLoss = 0.3f; //progress is done by this value
@@ -52,7 +52,7 @@ public class HealthBar : MonoBehaviour
                        
                      }
 
-           float targetFillRate = _FillRateValue + 0.5f; // Set the target fill rate value
+           float targetFillRate = _FillRateValue + 1f; // Set the target fill rate value
 
             // Use DOTween to lerp the fill rate value over a specified duration
              healthG = DOTween.To(() => _FillRateValue, x => _FillRateValue = x, targetFillRate, 1f)
