@@ -10,12 +10,12 @@ public class BugsSpawner : MonoBehaviour
 { 
 // make all variates private or private serialized or public
      public float respwanTime;
-     private float curTime = 0f;
+     //private float curTime = 0f;
      public Transform bonsaiP; 
      public float spawnScale = 0.25f;
 
 
-     private Tween oScale;
+     public Tween oScale;
 
   
     [SerializeField]
@@ -26,47 +26,60 @@ public class BugsSpawner : MonoBehaviour
 
     private Dictionary<GameObject, Transform> spawnedObjects;
 
+    void Start()
+    {
+        spawnedObjects = new Dictionary<GameObject, Transform>();
+        StartCoroutine(SpawnObjectsCoroutine());
+    }
+
+    
+
     IEnumerator SpawnObjectsCoroutine()
     {
+        Debug.Log("SpawnObjectsCoroutine started");
 
         yield return new WaitForSeconds(4f);
 
         while (true)
         {
             // Randomly select a spawn location
-            int locationIndex = Random.Range(0, spawns.Count);
-            Transform spawnLocation = spawns[locationIndex];
+        int locationIndex = Random.Range(0, spawns.Count);
+        Transform spawnLocation = spawns[locationIndex];
 
-            spawns.RemoveAt(locationIndex);
+        spawns.RemoveAt(locationIndex);
 
-            // Randomly select an object prefab
-            int prefabIndex = Random.Range(0, objects.Count);
-            GameObject selectedPrefab = objects[prefabIndex];
+        // Randomly select an object prefab
+        int prefabIndex = Random.Range(0, objects.Count);
+        GameObject selectedPrefab = objects[prefabIndex];
 
-            // Spawn the object
-            GameObject spawnedObject = Instantiate(selectedPrefab, spawnLocation.position, spawnLocation.rotation, bonsaiP);
+        // Spawn the object
+        GameObject spawnedObject = Instantiate(selectedPrefab, spawnLocation.position, spawnLocation.rotation, bonsaiP);
 
-            spawnedObjects.Add(spawnedObject, spawnLocation);
+        // Move the ScaleSpawn method call here
+        // ScaleSpawn(spawnedObject);
 
-            spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
+        spawnedObjects.Add(spawnedObject, spawnLocation);
 
-            if(spawnedObject.transform != null && spawnedObject !=null)
-            {
-            
-                oScale = spawnedObject.transform.DOScale(1f, 2f);
-                
-            }
+        spawnedObject.transform.localScale = new Vector3(spawnScale, spawnScale, spawnScale);
+        Debug.Log("Spawned Object Scale: " + spawnedObject.transform.localScale);
 
-            yield return new WaitForSeconds(respwanTime);
+        if (spawnedObject!= null )
+        {
+            oScale = spawnedObject.transform.DOScale(1f, 4f);
+            Debug.Log("Scale Tween Started: " + oScale);
         }
+
+        yield return new WaitForSeconds(respwanTime);
+        }
+    }
+    public void ScaleSpawn(GameObject spawnedObject)
+    {
+        Debug.Log("ScaleSpawn called");
+        
     }
  
     
-    void Start()
-    {
-        spawnedObjects = new Dictionary<GameObject, Transform>();
-        StartCoroutine(SpawnObjectsCoroutine());
-    }
+    
     
     
 
@@ -91,7 +104,7 @@ public class BugsSpawner : MonoBehaviour
            
             if(oScale != null && oScale.IsActive())
                 {
-                oScale.Kill();
+                //oScale.Kill();
                 }
 
             if(spawnLocation != null)

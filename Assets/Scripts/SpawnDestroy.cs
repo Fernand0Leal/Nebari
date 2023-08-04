@@ -4,9 +4,10 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
-public class SpawnDestroy : MonoBehaviour
+public class SpawnDestroy : MonoBehaviour, IPointerDownHandler
 {
 
     public BonsaiManager bManager;
@@ -16,7 +17,7 @@ public class SpawnDestroy : MonoBehaviour
    
     // public float spawnDamage;
 
-    private Vector3 currentScale;
+    //private Vector3 currentScale;
     // private Coroutine healthT;
     
     private Tween transformTween; 
@@ -33,7 +34,7 @@ public class SpawnDestroy : MonoBehaviour
         bManager = FindObjectOfType<BonsaiManager>();
         bSpawner = FindObjectOfType<BugsSpawner>();
         healthB = FindObjectOfType<HealthBar>();
-        currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
+        //currentScale =  new Vector3(this.transform.localScale.x,this.transform.localScale.y,this.transform.localScale.z);
         // StartTweens();
   
     }
@@ -43,15 +44,26 @@ public class SpawnDestroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(this.transform.localScale.x > 0.6f  && this.transform.localScale.y > 0.6f) 
-        {
-            
-            // bManager.bonsaiHealth -= spawnDamage*Time.deltaTime; 
-            healthB.ChangeValue(false);
-            
 
+             // Only check the scale condition when the health bar is not losing health
+        if (this.transform.localScale.x > 0.6f && this.transform.localScale.y > 0.6f)
+        {
+            if (!healthB.canStartLosingHealth)
+            {
+                healthB.canStartLosingHealth = true;
+                healthB.StartContinuousHealthReduction(); // Start continuous health reduction
+            }
         }
+        else
+        {
+            if (healthB.canStartLosingHealth)
+            {
+                healthB.canStartLosingHealth = false;
+                healthB.StopContinuousHealthReduction(); // Stop continuous health reduction
+            }
+        }
+        
+       
 
         if(bManager.winPanel.activeInHierarchy)
         {
@@ -66,7 +78,7 @@ public class SpawnDestroy : MonoBehaviour
 
         
 
-          if (gameObject == null)
+        else if (gameObject == null)
         {
            if (DOTween.TotalPlayingTweens() > 0)
             {
@@ -74,19 +86,31 @@ public class SpawnDestroy : MonoBehaviour
             }
         }
 
-         if (healthB._FillRateValue >= bManager.maxHealth)
-        {
-            DOTween.KillAll();
-        }        
+        // else if (healthB._FillRateValue >= bManager.maxHealth)
+        // {
+        //     DOTween.KillAll();
+        // }        
 
-        if(healthB._FillRateValue <= -5)
+        else if(healthB._FillRateValue <= -5)
         {
-            DOTween.KillAll();
+             DOTween.Clear(true);
+        }
+
+        if(bManager.winPanel.activeInHierarchy)
+        {
+            // spawnDamage = 0;
+            Destroy(this.GetComponent<Collider>());
+        }
+        if(bManager.losePanel.activeInHierarchy)
+        {
+            // spawnDamage = 0;
+            Destroy(this.GetComponent<Collider>());
         }
 
     }
 
-    void OnMouseDown(){
+    public void OnPointerDown(PointerEventData eventData)
+    {
 
         healthB.ChangeValue(true);
 
@@ -106,36 +130,18 @@ public class SpawnDestroy : MonoBehaviour
                     
                 });
         
-
-    //    healthT = StartCoroutine (HealthTimer());
-
-            
-        
+    
     }
 
-    // private IEnumerator HealthTimer()
-    // {
-     
+    void OnDestroy()
+    {
+        // Stop continuous health reduction when the object is destroyed
+        if (healthB != null)
+        {
+            healthB.StopContinuousHealthReduction();
+        }
+    }
 
-    //         if(gameObject != null)
-    //         {
-    //             healthB.ChangeValue(true);
-            
-    //         healthL = bManager.healthSlider.DOValue(bManager.bonsaiHealth + 5,1f)
-    //             .OnComplete(()=> {
-
-    //                 if(healthL != null && healthL.IsActive())
-    //                  {
-    //                    healthL.Kill();
-                       
-    //                  }
-    //              bManager.bonsaiHealth = bManager.healthSlider.value;
-                 
-                
-    //              });
-    //     yield return null;
-    //         }
-        
         
         
     

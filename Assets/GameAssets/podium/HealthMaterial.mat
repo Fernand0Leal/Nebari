@@ -98,7 +98,7 @@ Material:
     - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EnableExternalAlpha: 0
-    - _FillRate: 4.5142317
+    - _FillRate: 5
     - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5

@@ -35,7 +35,7 @@ public class BonsaiManager : MonoBehaviour
     {
      
        gameTimer = StartCoroutine(GameTimer());
-       
+       healthB.canStartLosingHealth = true;
         
     }
 
