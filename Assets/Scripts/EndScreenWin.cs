@@ -18,6 +18,8 @@ public class EndScreenWin : MonoBehaviour, IPointerDownHandler
         currentScale = transform.localScale; // Set the currentScale to the initial scale of the transform
          healthBar = FindObjectOfType<HealthBar>();
          healthBar.SetHealthBarUpdate(false); // Pause health bar updates
+
+         
     }
 
     
@@ -28,27 +30,20 @@ public class EndScreenWin : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
        
-        
 
-        Debug.Log("Pointer Down!");
-
-        Sequence s = DOTween.Sequence();
-
-        s.Append(transform.DOMove(new Vector3(0.3f, -2, -2), 2f));
+       
        
 
-        s.Join(transform.DOScale(currentScale * scaleUp, 3f));
-        s.SetEase(Ease.InBounce)
+        transform.DOScale(currentScale * scaleUp, 2f)
+        .SetEase(Ease.InBounce)
+       
+        
+        
          .OnComplete(() =>
          {
-             // Delay scene loading by 0.5 seconds
-             DOVirtual.DelayedCall(0.5f, () =>
-             {
-                
 
-                 SceneManager.LoadScene(1);
-             });
-             DOTween.Clear(true);
+            SceneManager.LoadScene(1);
+            DOTween.Clear(true);
          });
     }
 }

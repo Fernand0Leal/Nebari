@@ -20,7 +20,8 @@ public class Start : MonoBehaviour
         
 
     
-       s.Append(transform.DOMove(new Vector3(0.3f,-2,-2), 2f));
+    //    s.Append(transform.DOMove(new Vector3(0.3f,-2,-2), 2f));
+       s.Append(transform.DORotate(new Vector3(0,0,-5), 2f));
        
        s.Join(transform.DOScale(currentScale * scaleUp, 3f));
        s.SetEase(Ease.InBounce)

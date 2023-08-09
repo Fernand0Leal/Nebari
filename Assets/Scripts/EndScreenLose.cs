@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class EndScreenLose : MonoBehaviour, IPointerDownHandler
 {
-    public float scaleUp = -1.5f; 
+    public float scaleUp = 1f; 
     private Vector3 currentScale;
 
     public HealthBar healthBar;
@@ -30,25 +30,19 @@ public class EndScreenLose : MonoBehaviour, IPointerDownHandler
        
         
 
-        Debug.Log("Pointer Down!");
-
-        Sequence s = DOTween.Sequence();
-
-        s.Append(transform.DOMove(new Vector3(0.3f, -2, -2), 2f));
+       
        
 
-        s.Join(transform.DOScale(currentScale * scaleUp, 3f));
-        s.SetEase(Ease.InBounce)
+        transform.DOScale(currentScale * scaleUp, 2f)
+        .SetEase(Ease.InBounce)
+       
+        
+        
          .OnComplete(() =>
          {
-             // Delay scene loading by 0.5 seconds
-             DOVirtual.DelayedCall(0.5f, () =>
-             {
-                
 
-                 SceneManager.LoadScene(1);
-             });
-             DOTween.Clear(true);
+            SceneManager.LoadScene(1);
+            DOTween.Clear(true);
          });
     }
 }

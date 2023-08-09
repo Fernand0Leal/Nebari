@@ -11,7 +11,7 @@ public class BonsaiManager : MonoBehaviour
     
     public float rotAmount = 30f;
     public float maxHealth = 5; 
-    private float minHealth = -5;
+    private readonly float minHealth = -5;
     // public Slider healthSlider; 
     public int counter = 60;
     public TextMeshProUGUI timeText;  
@@ -74,7 +74,7 @@ public class BonsaiManager : MonoBehaviour
     void GameOver()
     {
         
-         DOTween.Clear(true);
+         //DOTween.Clear(true);
         StopCoroutine(gameTimer);
         losePanel.SetActive(true);
         Destroy(gameManager);

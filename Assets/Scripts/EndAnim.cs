@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class NebariAnim : MonoBehaviour
+public class EndAnim : MonoBehaviour
 {
 
  
@@ -12,7 +12,7 @@ public class NebariAnim : MonoBehaviour
     void Start()
     {
 
-        transform.DORotate(new Vector3 (15,10,0), 1f, RotateMode.FastBeyond360)
+        transform.DORotate(new Vector3 (5,5, 0), 1f, RotateMode.FastBeyond360)
         .SetLoops(-1,LoopType.Yoyo)
         .SetRelative()
         .SetEase(Ease.Linear);

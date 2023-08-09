@@ -8,23 +8,23 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HealthMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 75e83d05ba3254f178e044fdd75250b3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 39516bb879c144d55b072074be787a35, type: 3}
   m_ValidKeywords:
-  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
+  - NO_ANTI_ALIASING
   m_InvalidKeywords:
   - _ALPHAPREMULTIPLY_ON
+  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7e8e5e25492d943ee8bf74d1cb17e28a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -44,6 +44,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -98,14 +102,16 @@ Material:
     - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EnableExternalAlpha: 0
-    - _FillRate: 5
+    - _FillRate: 4.626516
     - _FlipbookMode: 0
+    - _Frac: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightingEnabled: 1
     - _Metallic: 0
     - _Mode: 3
+    - _NoAntiAliasing: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 0.2
@@ -124,11 +130,13 @@ Material:
     - _UseUIAlphaClip: 0
     - _ZWrite: 0
     m_Colors:
+    - _BackColor: {r: 1, g: 0.2783019, b: 0.2783019, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 0.5803922}
     - _EmissionColor: {r: 0, g: 5.521569, b: 5.4588237, a: 1}
     - _EmptyColor: {r: 5.3403134, g: 0, b: 0, a: 0.27058825}
+    - _FillColor: {r: 0.0141509175, g: 0.944415, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _FullColor: {r: 0, g: 0.7722802, b: 1, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
