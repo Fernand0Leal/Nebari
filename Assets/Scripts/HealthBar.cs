@@ -4,70 +4,47 @@ using UnityEngine;
 using DG.Tweening;
 
 public class HealthBar : MonoBehaviour
-
-    {
-    public float _FillRateValue = 6f; //progress bar starts full
+{
     public Material objectMaterial;
-
-    float healthLoss = 0.3f; //progress is done by this value
-    
     private Tween healthG;
     private Tween healthL;
+
+    
 
     public bool canStartLosingHealth = false;
     private bool allowHealthBarUpdate = true;
 
-    public BonsaiManager bManager;
-    
     // Start is called before the first frame update
     void Start()
     {
-        bManager = FindObjectOfType<BonsaiManager>();
-        
-        objectMaterial.SetFloat("_FillRate", _FillRateValue); //initial value is set 
-
-        
        
-
+        objectMaterial.SetFloat("_Frac", 1.0f);
+        
     }
 
-  
+    public float GetFracValue()
+{
+    return objectMaterial.GetFloat("_Frac");
+}
 
-                                        
-    public void ChangeValue(bool increase) //enables changing the value of progress bar
-    {              
-        Debug.Log("ChangeValue");                     //if increase param is true, the progress bar progresses otherwise it deprogresses
-        
+    public void ChangeValue(bool increase)
+    {
         if (!allowHealthBarUpdate || !canStartLosingHealth)
         {
             return;
         }
-        
-        
+
         if (increase)
         {
-
-            if(healthG != null && healthG.IsActive())
-                     {
-                       healthG.Kill();
-                       
-                     }
-
-           float targetFillRate = _FillRateValue + 3f; // Set the target fill rate value
-
-            // Use DOTween to lerp the fill rate value over a specified duration
-             healthG = DOTween.To(() => _FillRateValue, x => _FillRateValue = x, targetFillRate, 1f)
-            .OnUpdate(() =>
+            if (healthG != null && healthG.IsActive())
             {
-                objectMaterial.SetFloat("_FillRate", _FillRateValue); // Update the material's fill rate
-            });
-          
+                healthG.Kill();
+            }
+
+            float targetFrac = objectMaterial.GetFloat("_Frac") + 0.1f; // Set the target value
+
+            healthG = DOTween.To(() => objectMaterial.GetFloat("_Frac"), x => objectMaterial.SetFloat("_Frac", x), targetFrac, 1f);
         }
-        else
-        {
-            _FillRateValue -= healthLoss*Time.deltaTime; //progress decreased
-        }
-            objectMaterial.SetFloat("_FillRate", _FillRateValue); //Update the value of the progress bar
     }
 
     public void ChangeValue2(bool decrease)
@@ -86,22 +63,16 @@ public class HealthBar : MonoBehaviour
                      }
 
         
-        float targetFillRate2 = _FillRateValue - 1.5f; // Set the target fill rate value
+        float targetFrac2 = objectMaterial.GetFloat("_Frac") - 0.3f; // Set the target fill rate value
 
             // Use DOTween to lerp the fill rate value over a specified duration
-            healthL = DOTween.To(() => _FillRateValue, x => _FillRateValue = x, targetFillRate2, 1f)
-            .OnUpdate(() =>
-            {
-                objectMaterial.SetFloat("_FillRate", _FillRateValue); // Update the material's fill rate
-            });
+            healthL = DOTween.To(() => objectMaterial.GetFloat("_Frac"), x => objectMaterial.SetFloat("_Frac", x), targetFrac2, 1f);
+            
           
         }
-        else
-        {
-            
-        }
-            objectMaterial.SetFloat("_FillRate", _FillRateValue); //Update the value of the progress bar
+        
     }
+
 
     public void SetHealthBarUpdate(bool allowUpdate)
     {
@@ -115,22 +86,16 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        // Reduce health value continuously while the condition is met
-        healthL = DOTween.To(() => _FillRateValue, x => _FillRateValue = x, -6f, 10f)
-            .OnUpdate(() =>
-            {
-                objectMaterial.SetFloat("_FillRate", _FillRateValue);
-            })
+        healthL = DOTween.To(() => objectMaterial.GetFloat("_Frac"), x => objectMaterial.SetFloat("_Frac", x), -0.1f, 20f)
             .OnComplete(() =>
             {
-                if (canStartLosingHealth) // Check again in case the condition changed
+                if (canStartLosingHealth)
                 {
-                    StartContinuousHealthReduction(); // Call the method again for continuous reduction
+                    StartContinuousHealthReduction();
                 }
             });
     }
 
-    // Method to stop the continuous health reduction
     public void StopContinuousHealthReduction()
     {
         if (healthL != null && healthL.IsActive())
@@ -138,4 +103,6 @@ public class HealthBar : MonoBehaviour
             healthL.Kill();
         }
     }
-    }
+}
+
+ 

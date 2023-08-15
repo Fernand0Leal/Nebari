@@ -10,8 +10,8 @@ public class BonsaiManager : MonoBehaviour
 {
     
     public float rotAmount = 30f;
-    public float maxHealth = 5; 
-    private readonly float minHealth = -5;
+    public float maxHealth = 100f; 
+    private readonly float minHealth = 0f;
     // public Slider healthSlider; 
     public int counter = 60;
     public TextMeshProUGUI timeText;  
@@ -93,14 +93,18 @@ public class BonsaiManager : MonoBehaviour
         transform.RotateAround(transform.position, -transform.up, Time.deltaTime * rotAmount);
         // healthSlider.value = bonsaiHealth; 
 
-        if (healthB._FillRateValue >= maxHealth)
+        float fracValue = healthB.GetFracValue();
+
+        
+
+        if (fracValue  >= maxHealth)
         {
-           healthB._FillRateValue = maxHealth; 
+           fracValue  = maxHealth; 
         }        
 
-        if(healthB._FillRateValue <= -5f)
+        if(fracValue  <= 0f)
         {
-            healthB._FillRateValue = minHealth;
+            fracValue  = minHealth;
            
             print("gameOver");
             GameOver();
@@ -114,17 +118,16 @@ public class BonsaiManager : MonoBehaviour
         {
             winPanel.SetActive(false);
         }
-    }
+
+        
 
    
 
-    public void SceneLoader()
-    {
-        DOTween.KillAll();
-        SceneManager.LoadScene(0);
-    }
+    
+
 
     
     
 
+}
 }

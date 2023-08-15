@@ -102,7 +102,7 @@ Material:
     - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EnableExternalAlpha: 0
-    - _FillRate: 4.626516
+    - _FillRate: -5.020525
     - _FlipbookMode: 0
     - _Frac: 1
     - _GlossMapScale: 1

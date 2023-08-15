@@ -91,7 +91,7 @@ public class SpawnDestroy : MonoBehaviour, IPointerDownHandler
         //     DOTween.KillAll();
         // }        
 
-        else if(healthB._FillRateValue <= -5)
+        else if(healthB.GetFracValue()  <= 0)
         {
              DOTween.Clear(true);
         }

@@ -65,7 +65,7 @@ public class BugsSpawner : MonoBehaviour
 
         if (spawnedObject!= null )
         {
-            oScale = spawnedObject.transform.DOScale(1f, 4f);
+            oScale = spawnedObject.transform.DOScale(1f, 5f);
             Debug.Log("Scale Tween Started: " + oScale);
         }
 

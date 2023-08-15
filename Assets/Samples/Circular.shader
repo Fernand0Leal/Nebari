@@ -49,7 +49,7 @@ Shader "HorizontalBar" {
                 half gradient = i.gradient;
 
             #if defined(NO_ANTI_ALIASING)
-                fixed4 col = _Frac > gradient ? _FillColor : _BackColor;
+                fixed4 col = _Frac >= gradient ? _FillColor : _BackColor;
             #else
                 half gradientDeriv = fwidth(i.gradient) * 1.5;
                 half barProgress = smoothstep(_Frac, _Frac + gradientDeriv, gradient);
