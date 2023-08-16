@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80781863}
   m_LocalRotation: {x: 0.08475843, y: 0.7020086, z: -0.08475843, w: 0.7020086}
-  m_LocalPosition: {x: -646, y: 312, z: 142}
+  m_LocalPosition: {x: -646, y: 300, z: 142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10012,7 +10012,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -10056,10 +10056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ac09a7f6bbf4827b7a690dfeaf3e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _FillRateValue: 100
   objectMaterial: {fileID: 2100000, guid: bbffe4971ccb748829c7b95902c59b2c, type: 2}
   canStartLosingHealth: 0
-  bManager: {fileID: 4503497016099348521}
 --- !u!23 &7466600345684371619
 MeshRenderer:
   m_ObjectHideFlags: 0
